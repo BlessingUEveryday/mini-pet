@@ -33,7 +33,7 @@ public class PetWindow extends JWindow {
 
         panel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent event) {
+            public void mousePressed(MouseEvent event) {
                 if (SwingUtilities.isRightMouseButton(event)) {
                     stopAndExit();
                 } else if (SwingUtilities.isLeftMouseButton(event)) {
