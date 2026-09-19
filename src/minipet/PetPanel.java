@@ -12,6 +12,14 @@ import javax.swing.JPanel;
 public class PetPanel extends JPanel {
     private final PetState state;
 
+    private static final Color[] PET_COLORS = {
+            new Color(255, 197, 66),
+            new Color(120, 200, 255),
+            new Color(255, 150, 190),
+    };
+
+    private int colorIndex = 0;
+
     public PetPanel(PetState state) {
         this.state = state;
         setOpaque(false);
@@ -26,7 +34,7 @@ public class PetPanel extends JPanel {
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             // 身体
-            g.setColor(new Color(255, 197, 66));
+            g.setColor(PET_COLORS[colorIndex]);
             g.fillOval(8, 12, 80, 72);
 
             // 耳朵
@@ -44,5 +52,10 @@ public class PetPanel extends JPanel {
         } finally {
             g.dispose();
         }
+    }
+
+    public void changeToNextColor() {
+        colorIndex = (colorIndex + 1) % PET_COLORS.length;
+        repaint();
     }
 }

@@ -8,6 +8,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 /**
  * 负责桌宠窗口、定时更新与鼠标交互。
@@ -35,7 +37,7 @@ public class PetWindow extends JWindow {
             @Override
             public void mousePressed(MouseEvent event) {
                 if (SwingUtilities.isRightMouseButton(event)) {
-                    stopAndExit();
+                    showContextMenu(panel, event);
                 } else if (SwingUtilities.isLeftMouseButton(event)) {
                     state.reverseDirection();
                 }
@@ -61,5 +63,20 @@ public class PetWindow extends JWindow {
         timer.stop();
         dispose();
         System.exit(0);
+    }
+
+    private void showContextMenu(PetPanel panel, MouseEvent event) {
+        JPopupMenu menu = new JPopupMenu();
+
+        JMenuItem changeColorItem = new JMenuItem("Change Color");
+        changeColorItem.addActionListener(actionEvent -> panel.changeToNextColor());
+
+        JMenuItem exitItem = new JMenuItem("Exit");
+        exitItem.addActionListener(actionEvent -> stopAndExit());
+
+        menu.add(changeColorItem);
+        menu.add(exitItem);
+
+        menu.show(panel, event.getX(), event.getY());
     }
 }
