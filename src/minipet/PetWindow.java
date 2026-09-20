@@ -17,11 +17,12 @@ import javax.swing.JPopupMenu;
 public class PetWindow extends JWindow {
     private static final int FRAME_DELAY_MS = 16;
 
-    private final PetState state = new PetState();
+    private final PetState state;
     private final Rectangle screenBounds;
     private final Timer timer;
 
-    public PetWindow() {
+    public PetWindow(PetSettings settings) {
+        state = new PetState(settings);
         screenBounds = GraphicsEnvironment.getLocalGraphicsEnvironment()
                 .getDefaultScreenDevice()
                 .getDefaultConfiguration()

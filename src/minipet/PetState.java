@@ -10,8 +10,13 @@ public class PetState {
 
     private int x = 120;
     private int y = 120;
-    private int speedX = 3;
-    private int speedY = 2;
+    private int speedX;
+    private int speedY;
+
+    public PetState(PetSettings settings) {
+        speedX = settings.getSpeedX();
+        speedY = settings.getSpeedY();
+    }
 
     /**
      * 让桌宠移动一步；如果碰到屏幕边缘，就反转相应方向的速度。
