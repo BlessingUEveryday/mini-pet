@@ -13,9 +13,11 @@ public final class Main {
     }
 
     public static void main(String[] args) {
+        PetSettings settings = PetSettings.load();
+
         // Swing 窗口相关代码应该在 Swing 的界面线程中启动。
         SwingUtilities.invokeLater(() -> {
-            PetWindow petWindow = new PetWindow();
+            PetWindow petWindow = new PetWindow(settings);
             petWindow.showPet();
         });
     }
