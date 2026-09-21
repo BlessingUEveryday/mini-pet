@@ -21,6 +21,11 @@ public class PetWindow extends JWindow {
     private final Rectangle screenBounds;
     private final Timer timer;
 
+    private int dragOffsetX;
+    private int dragOffsetY;
+    private boolean dragging;
+    private boolean movedDuringDrag;
+
     public PetWindow(PetSettings settings) {
         state = new PetState(settings);
         screenBounds = GraphicsEnvironment.getLocalGraphicsEnvironment()
@@ -34,16 +39,51 @@ public class PetWindow extends JWindow {
         PetPanel panel = new PetPanel(state);
         add(panel);
 
-        panel.addMouseListener(new MouseAdapter() {
+        MouseAdapter mouseAdapter = new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent event) {
                 if (SwingUtilities.isRightMouseButton(event)) {
                     showContextMenu(panel, event);
                 } else if (SwingUtilities.isLeftMouseButton(event)) {
-                    state.reverseDirection();
+                    dragOffsetX = event.getX();
+                    dragOffsetY = event.getY();
+                    dragging = true;
+                    movedDuringDrag = false;
+                    timer.stop();
                 }
             }
-        });
+
+            @Override
+            public void mouseDragged(MouseEvent event) {
+                if (!dragging) {
+                    return;
+                }
+
+                movedDuringDrag = true;
+
+                int newX = event.getXOnScreen() - dragOffsetX;
+                int newY = event.getYOnScreen() - dragOffsetY;
+
+                state.setPosition(newX, newY, screenBounds);
+                setLocation(state.getX(), state.getY());
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent event) {
+                if (!SwingUtilities.isLeftMouseButton(event) || !dragging) {
+                    return;
+                }
+
+                if (!movedDuringDrag) {
+                    state.reverseDirection();
+                }
+                dragging = false;
+                timer.start();
+            }
+        };
+
+        panel.addMouseListener(mouseAdapter);
+        panel.addMouseMotionListener(mouseAdapter);
 
         timer = new Timer(FRAME_DELAY_MS, event -> updatePet());
     }
