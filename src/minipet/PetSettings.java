@@ -14,9 +14,14 @@ public final class PetSettings {
     private final int speedX;
     private final int speedY;
 
-    private PetSettings(int speedX, int speedY) {
+    private final int startX;
+    private final int startY;
+
+    private PetSettings(int speedX, int speedY, int startX, int startY) {
         this.speedX = speedX;
         this.speedY = speedY;
+        this.startX = startX;
+        this.startY = startY;
     }
 
     public static PetSettings load() {
@@ -32,7 +37,9 @@ public final class PetSettings {
 
         int speedX = readPositiveInt(properties, "speed.x");
         int speedY = readPositiveInt(properties, "speed.y");
-        return new PetSettings(speedX, speedY);
+        int startX = readInt(properties, "start.x");
+        int startY = readInt(properties, "start.y");
+        return new PetSettings(speedX, speedY, startX, startY);
     }
 
     private static int readPositiveInt(Properties properties, String key) {
@@ -57,6 +64,23 @@ public final class PetSettings {
         }
     }
 
+    private static int readInt(Properties properties, String key) {
+        String value = properties.getProperty(key);
+
+        if (value == null) {
+            throw new IllegalStateException("Missing config value:" + key);
+        }
+
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException exception) {
+            throw new IllegalStateException(
+                    key + " must be a whole number.",
+                    exception
+            );
+        }
+    }
+
     public int getSpeedX() {
         return speedX;
     }
@@ -64,4 +88,8 @@ public final class PetSettings {
     public int getSpeedY() {
         return speedY;
     }
+
+    public int getStartX() { return startX; }
+
+    public int getStartY() { return startY; }
 }
