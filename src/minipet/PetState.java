@@ -14,10 +14,19 @@ public class PetState {
     private int speedY;
 
     public PetState(PetSettings settings) {
-        speedX = settings.getSpeedX();
-        speedY = settings.getSpeedY();
-        x = settings.getStartX();
-        y = settings.getStartY();
+        this (
+                settings.getStartX(),
+                settings.getStartY(),
+                settings.getSpeedX(),
+                settings.getSpeedY()
+        );
+    }
+
+    PetState(int x, int y, int speedX, int speedY) {
+        this.x = x;
+        this.y = y;
+        this.speedX = speedX;
+        this.speedY = speedY;
     }
 
     public void setPosition(int x, int y, Rectangle screenBounds) {
