@@ -20,6 +20,14 @@ public class PetState {
         y = settings.getStartY();
     }
 
+    public void setPosition(int x, int y, Rectangle screenBounds) {
+        int rightEdge = screenBounds.x + screenBounds.width - SIZE;
+        int bottomEdge = screenBounds.y + screenBounds.height - SIZE;
+
+        this.x = Math.max(screenBounds.x, Math.min(x, rightEdge));
+        this.y = Math.max(screenBounds.y, Math.min(y, bottomEdge));
+    }
+
     /**
      * 让桌宠移动一步；如果碰到屏幕边缘，就反转相应方向的速度。
      */
