@@ -1,6 +1,6 @@
 # Mini Pet
 
-[中文文档](README.zh-CN.md)
+[Chinese](README.zh-CN.md)
 
 A small desktop pet application built with Java Swing. It is a practical learning project for exploring a layered Java application, Maven, resource loading, mouse events, and automated tests.
 
@@ -43,11 +43,11 @@ Run the automated tests:
 mvn test
 ```
 
-Compile and launch the pet on Windows:
+Build a runnable JAR and launch the pet on Windows:
 
 ```powershell
-mvn compile
-java -cp target\classes minipet.Main
+mvn package
+java -jar target\mini-pet-1.0.0-SNAPSHOT.jar
 ```
 
 To stop the pet, right-click it and choose **Exit**.
