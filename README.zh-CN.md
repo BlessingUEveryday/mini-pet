@@ -1,6 +1,6 @@
 # Mini Pet
 
-[English](README.md)
+[英文](README.md)
 
 一个使用 Java Swing 编写的小型桌宠程序。它是一个面向实践的学习项目，用来理解分层 Java 工程、Maven、资源加载、鼠标事件和自动化测试。
 
@@ -43,11 +43,11 @@ cd mini-pet
 mvn test
 ```
 
-在 Windows 上编译并启动桌宠：
+在 Windows 上构建可运行 JAR 并启动桌宠：
 
 ```powershell
-mvn compile
-java -cp target\classes minipet.Main
+mvn package
+java -jar target\mini-pet-1.0.0-SNAPSHOT.jar
 ```
 
 要关闭桌宠，请右键单击它并选择 **Exit**。
