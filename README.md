@@ -12,6 +12,7 @@ A small desktop pet application built with Java Swing. It is a practical learnin
 - Left-click the pet to reverse its movement direction.
 - Drag the pet with the left mouse button; it stays within the visible screen bounds.
 - Right-click the pet to open an **Exit** menu. Movement pauses while the menu is open.
+- Provides a system tray icon with **Show Pet**, **Hide Pet**, and **Exit** actions.
 - Loads the initial position and movement speed from a properties file.
 - Includes JUnit tests for the movement and boundary rules.
 
@@ -50,7 +51,7 @@ mvn package
 java -jar target\mini-pet-1.0.0-SNAPSHOT.jar
 ```
 
-To stop the pet, right-click it and choose **Exit**.
+To stop the pet, right-click it and choose **Exit**, or use the system tray menu.
 
 ## Configuration
 

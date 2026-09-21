@@ -102,7 +102,12 @@ public class PetWindow extends JWindow {
         repaint();
     }
 
-    private void stopAndExit() {
+    public void hidePet() {
+        timer.stop();
+        setVisible(false);
+    }
+
+    public void exitPet() {
         timer.stop();
         dispose();
         System.exit(0);
@@ -112,7 +117,7 @@ public class PetWindow extends JWindow {
         JPopupMenu menu = new JPopupMenu();
 
         JMenuItem exitItem = new JMenuItem("Exit");
-        exitItem.addActionListener(actionEvent -> stopAndExit());
+        exitItem.addActionListener(actionEvent -> exitPet());
 
         menu.add(exitItem);
 
