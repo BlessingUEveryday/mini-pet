@@ -8,14 +8,16 @@ import java.awt.Rectangle;
 public class PetState {
     public static final int SIZE = 96;
 
-    private int x = 120;
-    private int y = 120;
+    private int x;
+    private int y;
     private int speedX;
     private int speedY;
 
     public PetState(PetSettings settings) {
         speedX = settings.getSpeedX();
         speedY = settings.getSpeedY();
+        x = settings.getStartX();
+        y = settings.getStartY();
     }
 
     /**
