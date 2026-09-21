@@ -1,48 +1,98 @@
 # Mini Pet
 
-这是一个专门用于学习 Java 桌面程序的极小桌宠工程。第一版只使用 JDK 自带的 Swing，不使用 Maven、XML、图片或第三方库。
+[中文文档](README.zh-CN.md)
 
-## 第一版功能
+A small desktop pet application built with Java Swing. It is a practical learning project for exploring a layered Java application, Maven, resource loading, mouse events, and automated tests.
 
-- 显示一个透明背景的小桌宠窗口。
-- 桌宠持续移动，碰到屏幕边缘会反弹。
-- 左键点击桌宠会让它反向移动。
-- 右键点击桌宠会退出程序。
+## Features
 
-## 文件分工
+- Displays a transparent, always-on-top desktop pet window.
+- Moves continuously and bounces at screen edges.
+- Uses a bundled character image with transparent background.
+- Left-click the pet to reverse its movement direction.
+- Drag the pet with the left mouse button; it stays within the visible screen bounds.
+- Right-click the pet to open an **Exit** menu. Movement pauses while the menu is open.
+- Loads the initial position and movement speed from a properties file.
+- Includes JUnit tests for the movement and boundary rules.
 
-| 文件 | 作用 |
+## Requirements
+
+- JDK 25
+- Maven 3.9 or newer
+
+Check that both Maven and the Java compiler use JDK 25:
+
+```powershell
+java -version
+javac -version
+mvn -version
+```
+
+## Build, Test, and Run
+
+Clone the repository and enter its directory:
+
+```powershell
+git clone https://github.com/BlessingUEveryday/mini-pet.git
+cd mini-pet
+```
+
+Run the automated tests:
+
+```powershell
+mvn test
+```
+
+Compile and launch the pet on Windows:
+
+```powershell
+mvn compile
+java -cp target\classes minipet.Main
+```
+
+To stop the pet, right-click it and choose **Exit**.
+
+## Configuration
+
+Edit [pet.properties](src/main/resources/config/pet.properties) before compiling to change the defaults:
+
+```properties
+speed.x=1
+speed.y=1
+start.x=120
+start.y=120
+```
+
+- `speed.x` and `speed.y` must be positive whole numbers.
+- `start.x` and `start.y` define the initial window position in pixels.
+
+## Project Structure
+
+```text
+src/
+├── main/
+│   ├── java/minipet/          Application source code
+│   └── resources/
+│       ├── assets/            Pet images
+│       └── config/            Default settings
+└── test/
+    └── java/minipet/          JUnit tests
+```
+
+| Class | Responsibility |
 | --- | --- |
-| `Main.java` | 程序入口，负责启动桌宠 |
-| `PetState.java` | 保存桌宠的位置和速度，并计算下一步位置 |
-| `PetPanel.java` | 负责把桌宠画出来 |
-| `PetWindow.java` | 负责窗口、定时器和鼠标事件 |
+| `Main` | Loads settings and starts the Swing user interface. |
+| `PetWindow` | Owns the window, timer, context menu, and mouse interaction. |
+| `PetState` | Stores position and velocity, and applies movement rules. |
+| `PetPanel` | Loads and draws the pet image. |
+| `PetSettings` | Reads and validates `pet.properties`. |
 
-## 在 PowerShell 中编译与运行
+## Learning Focus
 
-先进入本项目目录：
+This project is intentionally small, but it uses real project conventions:
 
-```powershell
-cd D:\NewProject\mini-pet
-```
-
-编译：
-
-```powershell
-javac -d out src\minipet\*.java
-```
-
-运行：
-
-```powershell
-java -cp out minipet.Main
-```
-
-`out/` 是编译器自动生成的 `.class` 文件目录，不需要手动修改，也不应该提交到 Git。
-
-## 第一次阅读顺序
-
-1. `Main.java`
-2. `PetWindow.java` 的构造方法
-3. `PetState.java` 的 `advance` 方法
-4. `PetPanel.java` 的 `paintComponent` 方法
+- Maven standard directories and dependency management
+- Classpath resources instead of hard-coded local file paths
+- Separation of application state, UI rendering, and window interaction
+- JUnit tests for non-UI logic
+- Git branches and pull requests for incremental development
