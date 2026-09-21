@@ -10,6 +10,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 /**
  * 负责桌宠窗口、定时更新与鼠标交互。
@@ -36,7 +38,7 @@ public class PetWindow extends JWindow {
         setAlwaysOnTop(true);
         setBackground(new Color(0, 0, 0, 0));
         setSize(PetState.SIZE, PetState.SIZE);
-        PetPanel panel = new PetPanel(state);
+        PetPanel panel = new PetPanel();
         add(panel);
 
         MouseAdapter mouseAdapter = new MouseAdapter() {
@@ -109,14 +111,28 @@ public class PetWindow extends JWindow {
     private void showContextMenu(PetPanel panel, MouseEvent event) {
         JPopupMenu menu = new JPopupMenu();
 
-        JMenuItem changeColorItem = new JMenuItem("Change Color");
-        changeColorItem.addActionListener(actionEvent -> panel.changeToNextColor());
-
         JMenuItem exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(actionEvent -> stopAndExit());
 
-        menu.add(changeColorItem);
         menu.add(exitItem);
+
+        timer.stop();
+
+        menu.addPopupMenuListener(new PopupMenuListener() {
+            @Override
+            public void popupMenuWillBecomeVisible(PopupMenuEvent event) {
+            }
+
+            @Override
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {
+                timer.start();
+            }
+
+            @Override
+            public void popupMenuCanceled(PopupMenuEvent event) {
+                timer.start();
+            }
+        });
 
         menu.show(panel, event.getX(), event.getY());
     }

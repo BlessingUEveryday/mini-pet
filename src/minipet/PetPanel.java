@@ -1,28 +1,45 @@
 package minipet;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /**
  * 只负责绘制桌宠外观。
  */
 public class PetPanel extends JPanel {
-    private final PetState state;
+    private static final Path PET_IMAGE_PATH = Path.of("assets", "isaac-pet.png");
 
-    private static final Color[] PET_COLORS = {
-            new Color(255, 197, 66),
-            new Color(120, 200, 255),
-            new Color(255, 150, 190),
-    };
+    private final BufferedImage petImage;
 
-    private int colorIndex = 0;
-
-    public PetPanel(PetState state) {
-        this.state = state;
+    public PetPanel() {
+        petImage = loadPetImage();
         setOpaque(false);
+    }
+
+    private static BufferedImage loadPetImage() {
+        try (InputStream input = Files.newInputStream(PET_IMAGE_PATH)) {
+            BufferedImage image = ImageIO.read(input);
+
+            if (image == null) {
+                throw new IllegalStateException(
+                        "Unsupported image format: " + PET_IMAGE_PATH);
+            };
+
+            return image;
+        } catch (IOException exception) {
+            throw new IllegalStateException(
+                    "Cannot read " + PET_IMAGE_PATH + ".",
+                    exception
+            );
+        }
     }
 
     @Override
@@ -31,31 +48,14 @@ public class PetPanel extends JPanel {
 
         Graphics2D g = (Graphics2D) graphics.create();
         try {
-            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g.setRenderingHint(
+                    RenderingHints.KEY_INTERPOLATION,
+                    RenderingHints.VALUE_INTERPOLATION_BILINEAR
+            );
 
-            // 身体
-            g.setColor(PET_COLORS[colorIndex]);
-            g.fillOval(8, 12, 80, 72);
-
-            // 耳朵
-            g.fillOval(12, 0, 24, 30);
-            g.fillOval(60, 0, 24, 30);
-
-            // 眼睛会稍微朝移动方向偏移。
-            int eyeOffset = state.getSpeedX() > 0 ? 3 : -3;
-            g.setColor(new Color(50, 45, 35));
-            g.fillOval(29 + eyeOffset, 38, 9, 13);
-            g.fillOval(58 + eyeOffset, 38, 9, 13);
-
-            // 嘴巴
-            g.drawArc(37, 45, 24, 19, 0, -180);
+            g.drawImage(petImage, 0, 0, getWidth(), getHeight(), null);
         } finally {
             g.dispose();
         }
-    }
-
-    public void changeToNextColor() {
-        colorIndex = (colorIndex + 1) % PET_COLORS.length;
-        repaint();
     }
 }
