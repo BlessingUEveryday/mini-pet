@@ -6,8 +6,6 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -15,7 +13,7 @@ import javax.swing.JPanel;
  * 只负责绘制桌宠外观。
  */
 public class PetPanel extends JPanel {
-    private static final Path PET_IMAGE_PATH = Path.of("assets", "isaac-pet.png");
+    private static final String PET_IMAGE_RESOURCE = "/assets/isaac-pet.png";
 
     private final BufferedImage petImage;
 
@@ -25,18 +23,29 @@ public class PetPanel extends JPanel {
     }
 
     private static BufferedImage loadPetImage() {
-        try (InputStream input = Files.newInputStream(PET_IMAGE_PATH)) {
+        InputStream resource = PetPanel.class.getResourceAsStream(
+                PET_IMAGE_RESOURCE
+        );
+
+        if (resource == null) {
+            throw new IllegalStateException(
+                    "Cannot find resource: "  + PET_IMAGE_RESOURCE
+            );
+        }
+
+        try (InputStream input = resource) {
             BufferedImage image = ImageIO.read(input);
 
             if (image == null) {
                 throw new IllegalStateException(
-                        "Unsupported image format: " + PET_IMAGE_PATH);
-            };
+                        "Unsupported image format: " + PET_IMAGE_RESOURCE
+                );
+            }
 
             return image;
         } catch (IOException exception) {
             throw new IllegalStateException(
-                    "Cannot read " + PET_IMAGE_PATH + ".",
+                    "Cannot read resource: " + PET_IMAGE_RESOURCE,
                     exception
             );
         }

@@ -2,14 +2,12 @@ package minipet;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Properties;
 
 //Load movement settings from config/pet.properties.
 
 public final class PetSettings {
-    private static final Path CONFIG_PATH = Path.of("config", "pet.properties");
+    private static final String CONFIG_RESOURCE = "/config/pet.properties";
 
     private final int speedX;
     private final int speedY;
@@ -27,13 +25,22 @@ public final class PetSettings {
     public static PetSettings load() {
         Properties properties = new Properties();
 
-        try (InputStream input = Files.newInputStream(CONFIG_PATH)) {
+        InputStream resource = PetSettings.class.getResourceAsStream(CONFIG_RESOURCE);
+
+        if (resource == null) {
+           throw new IllegalStateException(
+                   "Cannot find resources: " + CONFIG_RESOURCE
+           );
+        }
+
+        try (InputStream input = resource) {
             properties.load(input);
         } catch (IOException exception) {
             throw new IllegalStateException(
-                    "Cannot read config/pet.properties.",
-                    exception);
-        };
+                    "Cannot read resources: " + CONFIG_RESOURCE,
+                    exception
+            );
+        }
 
         int speedX = readPositiveInt(properties, "speed.x");
         int speedY = readPositiveInt(properties, "speed.y");
@@ -43,25 +50,13 @@ public final class PetSettings {
     }
 
     private static int readPositiveInt(Properties properties, String key) {
-        String value = properties.getProperty(key);
+        int number = readInt(properties, key);
 
-        if (value == null) {
-            throw new IllegalStateException("Missing config value:" + key);
+        if (number <= 0) {
+            throw new IllegalStateException(key + " must be positive.");
         }
 
-        try {
-            int number = Integer.parseInt(value);
-
-            if (number <= 0) {
-                throw new IllegalStateException(key + " must be positive");
-            }
-
-            return number;
-        } catch (NumberFormatException exception) {
-            throw new IllegalStateException(key + " must be a whole number.",
-                                            exception
-            );
-        }
+        return number;
     }
 
     private static int readInt(Properties properties, String key) {
