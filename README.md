@@ -55,7 +55,17 @@ To stop the pet, right-click it and choose **Exit**, or use the system tray menu
 
 ## Configuration
 
-Edit [pet.properties](src/main/resources/config/pet.properties) before compiling to change the defaults:
+On first launch, Mini Pet copies its bundled default configuration to:
+
+```text
+C:\Users\<your-user-name>\.mini-pet\pet.properties
+```
+
+Edit this external file, then restart the pet for changes to take effect:
+
+```powershell
+notepad "$env:USERPROFILE\.mini-pet\pet.properties"
+```
 
 ```properties
 speed.x=1
@@ -66,6 +76,7 @@ start.y=120
 
 - `speed.x` and `speed.y` must be positive whole numbers.
 - `start.x` and `start.y` define the initial window position in pixels.
+- The bundled [pet.properties](src/main/resources/config/pet.properties) is only the default template used when no user configuration exists.
 
 ## Project Structure
 

@@ -55,7 +55,17 @@ java -jar target\mini-pet-1.0.0-SNAPSHOT.jar
 
 ## 配置
 
-在编译前编辑 [pet.properties](src/main/resources/config/pet.properties)，可以修改默认值：
+Mini Pet 首次启动时，会将 JAR 内的默认配置复制到：
+
+```text
+C:\Users\<你的用户名>\.mini-pet\pet.properties
+```
+
+编辑这个外部文件后，重启桌宠即可生效：
+
+```powershell
+notepad "$env:USERPROFILE\.mini-pet\pet.properties"
+```
 
 ```properties
 speed.x=1
@@ -66,6 +76,7 @@ start.y=120
 
 - `speed.x` 和 `speed.y` 必须是正整数。
 - `start.x` 和 `start.y` 代表桌宠窗口初始位置的像素坐标。
+- JAR 内的 [pet.properties](src/main/resources/config/pet.properties) 只是默认模板；仅当用户配置不存在时才会使用它。
 
 ## 工程结构
 
