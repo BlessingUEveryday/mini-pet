@@ -28,6 +28,16 @@ public final class PetTray {
                 event -> SwingUtilities.invokeLater(petWindow::hidePet)
         );
 
+        MenuItem pauseItem = new MenuItem("Pause");
+        pauseItem.addActionListener(
+                event -> SwingUtilities.invokeLater(petWindow::pauseMovement)
+        );
+
+        MenuItem resumeItem = new MenuItem("Resume");
+        resumeItem.addActionListener(
+                event -> SwingUtilities.invokeLater(petWindow::resumeMovement)
+        );
+
         MenuItem exitItem = new MenuItem("Exit");
         exitItem.addActionListener(
                 event -> SwingUtilities.invokeLater(petWindow::exitPet)
@@ -35,6 +45,8 @@ public final class PetTray {
 
         menu.add(showItem);
         menu.add(hideItem);
+        menu.add(pauseItem);
+        menu.add(resumeItem);
         menu.add(exitItem);
 
         TrayIcon trayIcon = new TrayIcon(

@@ -27,6 +27,7 @@ public class PetWindow extends JWindow {
     private int dragOffsetY;
     private boolean dragging;
     private boolean movedDuringDrag;
+    private boolean movementPaused;
 
     public PetWindow(PetSettings settings) {
         state = new PetState(settings);
@@ -80,7 +81,7 @@ public class PetWindow extends JWindow {
                     state.reverseDirection();
                 }
                 dragging = false;
-                timer.start();
+                startTimerIfAllowed();
             }
         };
 
@@ -93,18 +94,37 @@ public class PetWindow extends JWindow {
     public void showPet() {
         setLocation(state.getX(), state.getY());
         setVisible(true);
-        timer.start();
+        startTimerIfAllowed();
     }
 
     private void updatePet() {
+        if (movementPaused) {
+            return;
+        }
         state.advance(screenBounds);
         setLocation(state.getX(), state.getY());
         repaint();
     }
 
+    private void startTimerIfAllowed() {
+        if (!movementPaused && isVisible()) {
+            timer.start();
+        }
+    }
+
     public void hidePet() {
         timer.stop();
         setVisible(false);
+    }
+
+    public void pauseMovement() {
+        movementPaused = true;
+        timer.stop();
+    }
+
+    public void resumeMovement() {
+        movementPaused = false;
+        startTimerIfAllowed();
     }
 
     public void exitPet() {
@@ -130,12 +150,12 @@ public class PetWindow extends JWindow {
 
             @Override
             public void popupMenuWillBecomeInvisible(PopupMenuEvent event) {
-                timer.start();
+                startTimerIfAllowed();
             }
 
             @Override
             public void popupMenuCanceled(PopupMenuEvent event) {
-                timer.start();
+                startTimerIfAllowed();
             }
         });
 
