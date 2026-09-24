@@ -28,6 +28,13 @@ public final class PetTray {
                 event -> SwingUtilities.invokeLater(petWindow::hidePet)
         );
 
+        MenuItem settingsItem = new MenuItem("Settings");
+        settingsItem.addActionListener(
+                event -> SwingUtilities.invokeLater(
+                        () -> SettingsDialog.show(petWindow)
+                )
+        );
+
         MenuItem pauseItem = new MenuItem("Pause");
         pauseItem.addActionListener(
                 event -> SwingUtilities.invokeLater(petWindow::pauseMovement)
@@ -45,6 +52,7 @@ public final class PetTray {
 
         menu.add(showItem);
         menu.add(hideItem);
+        menu.add(settingsItem);
         menu.add(pauseItem);
         menu.add(resumeItem);
         menu.add(exitItem);
