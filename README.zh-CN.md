@@ -13,6 +13,7 @@
 - 按住左键拖拽桌宠；它会保持在可见屏幕范围内。
 - 右键单击会打开包含 **Exit** 的菜单；菜单打开期间桌宠会暂停移动。
 - 提供系统托盘图标，以及 **Show Pet**、**Hide Pet**、**Pause**、**Resume** 和 **Exit** 操作。
+- 可从系统托盘打开 **Settings** 对话框，立即保存并应用移动设置。
 - 从属性文件中读取初始位置和移动速度。
 - 使用 JUnit 测试移动和边界规则。
 
@@ -61,7 +62,7 @@ Mini Pet 首次启动时，会将 JAR 内的默认配置复制到：
 C:\Users\<你的用户名>\.mini-pet\pet.properties
 ```
 
-编辑这个外部文件后，重启桌宠即可生效：
+可以通过系统托盘中的 **Settings** 立即保存并应用修改，也可以编辑这个外部文件后重启桌宠：
 
 ```powershell
 notepad "$env:USERPROFILE\.mini-pet\pet.properties"
@@ -74,7 +75,7 @@ start.x=120
 start.y=120
 ```
 
-- `speed.x` 和 `speed.y` 必须是正整数。
+- `speed.x` 和 `speed.y` 是整数；正负号决定初始方向，`0` 表示该方向静止。
 - `start.x` 和 `start.y` 代表桌宠窗口初始位置的像素坐标。
 - JAR 内的 [pet.properties](src/main/resources/config/pet.properties) 只是默认模板；仅当用户配置不存在时才会使用它。
 

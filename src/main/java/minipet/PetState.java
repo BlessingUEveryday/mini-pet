@@ -37,9 +37,11 @@ public class PetState {
         this.y = Math.max(screenBounds.y, Math.min(y, bottomEdge));
     }
 
-    /**
-     * 让桌宠移动一步；如果碰到屏幕边缘，就反转相应方向的速度。
-     */
+    public void setSpeed(int speedX, int speedY) {
+        this.speedX = speedX;
+        this.speedY = speedY;
+    }
+
     public void advance(Rectangle screenBounds) {
         x += speedX;
         y += speedY;

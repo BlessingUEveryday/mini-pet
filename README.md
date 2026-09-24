@@ -13,6 +13,7 @@ A small desktop pet application built with Java Swing. It is a practical learnin
 - Drag the pet with the left mouse button; it stays within the visible screen bounds.
 - Right-click the pet to open an **Exit** menu. Movement pauses while the menu is open.
 - Provides a system tray icon with **Show Pet**, **Hide Pet**, **Pause**, **Resume**, and **Exit** actions.
+- Opens a **Settings** dialog from the system tray to save and apply movement settings immediately.
 - Loads the initial position and movement speed from a properties file.
 - Includes JUnit tests for the movement and boundary rules.
 
@@ -61,7 +62,7 @@ On first launch, Mini Pet copies its bundled default configuration to:
 C:\Users\<your-user-name>\.mini-pet\pet.properties
 ```
 
-Edit this external file, then restart the pet for changes to take effect:
+Use **Settings** in the system tray to save and apply changes immediately, or edit this external file and restart the pet:
 
 ```powershell
 notepad "$env:USERPROFILE\.mini-pet\pet.properties"
@@ -74,7 +75,7 @@ start.x=120
 start.y=120
 ```
 
-- `speed.x` and `speed.y` must be positive whole numbers.
+- `speed.x` and `speed.y` are whole numbers. Their signs set the initial direction; `0` keeps that axis stationary.
 - `start.x` and `start.y` define the initial window position in pixels.
 - The bundled [pet.properties](src/main/resources/config/pet.properties) is only the default template used when no user configuration exists.
 

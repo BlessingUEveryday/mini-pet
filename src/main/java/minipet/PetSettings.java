@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.io.OutputStream;
 import java.util.Properties;
-
-//Load movement settings from config/pet.properties.
 
 public final class PetSettings {
     private static final String DEFAULT_CONFIG_RESOURCE = "/config/pet.properties";
@@ -30,6 +28,15 @@ public final class PetSettings {
         this.startY = startY;
     }
 
+    public static PetSettings create(
+            int speedX,
+            int speedY,
+            int startX,
+            int startY
+    ) {
+        return new PetSettings(speedX, speedY, startX, startY);
+    }
+
     public static PetSettings load() {
         createUserConfigIfMissing();
 
@@ -44,12 +51,33 @@ public final class PetSettings {
             );
         }
 
-        int speedX = readPositiveInt(properties, "speed.x");
-        int speedY = readPositiveInt(properties, "speed.y");
+        int speedX = readInt(properties, "speed.x");
+        int speedY = readInt(properties, "speed.y");
         int startX = readInt(properties, "start.x");
         int startY = readInt(properties, "start.y");
 
-        return new PetSettings(speedX, speedY, startX, startY);
+        return create(speedX, speedY, startX, startY);
+    }
+
+    public void save() {
+        Properties properties = new Properties();
+        properties.setProperty("speed.x", String.valueOf(this.speedX));
+        properties.setProperty("speed.y", String.valueOf(this.speedY));
+        properties.setProperty("start.x", String.valueOf(this.startX));
+        properties.setProperty("start.y", String.valueOf(this.startY));
+
+        try {
+            Files.createDirectories(USER_CONFIG_PATH.getParent());
+
+            try (OutputStream output = Files.newOutputStream(USER_CONFIG_PATH)) {
+                properties.store(output, "Mini Pet settings");
+            }
+        } catch (IOException exception) {
+            throw new IllegalStateException(
+                    "Cannot save setting file: " +  USER_CONFIG_PATH,
+                    exception
+            );
+        }
     }
 
     private static void createUserConfigIfMissing() {
@@ -82,15 +110,6 @@ public final class PetSettings {
     }
 
 
-    private static int readPositiveInt(Properties properties, String key) {
-        int number = readInt(properties, key);
-
-        if (number <= 0) {
-            throw new IllegalStateException(key + " must be positive.");
-        }
-
-        return number;
-    }
 
     private static int readInt(Properties properties, String key) {
         String value = properties.getProperty(key);

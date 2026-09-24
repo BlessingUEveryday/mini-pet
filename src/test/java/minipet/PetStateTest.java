@@ -40,4 +40,15 @@ class PetStateTest {
         assertEquals(0, state.getY());
     }
 
+    @Test
+    void setSpeedChangesNextMovement() {
+        PetState state = new PetState(100, 100, 3, 2);
+
+        state.setSpeed(-2, 0);
+        state.advance(SCREEN);
+
+        assertEquals(98, state.getX());
+        assertEquals(100, state.getY());
+    }
+
 }

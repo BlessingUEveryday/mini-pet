@@ -127,6 +127,21 @@ public class PetWindow extends JWindow {
         startTimerIfAllowed();
     }
 
+    public void applySettings(PetSettings settings) {
+        state.setSpeed(
+                settings.getSpeedX(),
+                settings.getSpeedY()
+        );
+
+        state.setPosition(
+                settings.getStartX(),
+                settings.getStartY(),
+                screenBounds
+        );
+
+        setLocation(state.getX(), state.getY());
+    }
+
     public void exitPet() {
         timer.stop();
         dispose();
