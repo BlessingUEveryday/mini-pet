@@ -21,6 +21,7 @@ A small desktop pet application built with Java Swing. It is a practical learnin
 
 - JDK 25
 - Maven 3.9 or newer
+- WiX Toolset 7 with the `WixToolset.Util.wixext` and `WixToolset.UI.wixext` extensions (only for building the Windows installer)
 
 Check that both Maven and the Java compiler use JDK 25:
 
@@ -54,17 +55,20 @@ java -jar target\mini-pet-1.0.0-SNAPSHOT.jar
 
 To stop the pet, right-click it and choose **Exit**, or use the system tray menu.
 
-## Package a Windows Application
+## Package for Windows
 
-Build a standalone Windows application folder that includes its own Java runtime:
+Build both a portable application folder and an installable Windows application:
 
 ```powershell
 .\scripts\package-windows.ps1
 ```
 
-After the command finishes, run `package-output\MiniPet\MiniPet.exe`.
+After the command finishes, it produces:
 
-`package-input` and `package-output` are generated directories and are not committed to Git.
+- `package-output\MiniPet\MiniPet.exe`: a portable application that can run directly.
+- An `.exe` installer in `installer-output\<version>`: installs MiniPet for the current user and requests a desktop shortcut and Start menu entry.
+
+`package-input`, `package-output`, and `installer-output` are generated directories and are not committed to Git.
 
 ## Configuration
 
