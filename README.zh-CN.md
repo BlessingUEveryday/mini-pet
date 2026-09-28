@@ -21,6 +21,7 @@
 
 - JDK 25
 - Maven 3.9 或更新版本
+- WiX Toolset 7，以及 `WixToolset.Util.wixext` 与 `WixToolset.UI.wixext` 扩展（仅在构建 Windows 安装包时需要）
 
 确认 Maven 与 Java 编译器都在使用 JDK 25：
 
@@ -56,15 +57,18 @@ java -jar target\mini-pet-1.0.0-SNAPSHOT.jar
 
 ## 打包 Windows 应用
 
-使用下面的命令构建一个自带 Java 运行环境、可直接运行的 Windows 应用文件夹：
+使用下面的命令同时构建便携式应用文件夹和可安装的 Windows 应用：
 
 ```powershell
 .\scripts\package-windows.ps1
 ```
 
-命令完成后，运行 `package-output\MiniPet\MiniPet.exe`。
+命令完成后，会生成：
 
-`package-input` 和 `package-output` 是生成目录，不会提交到 Git。
+- `package-output\MiniPet\MiniPet.exe`：无需安装即可直接运行的便携式应用。
+- `installer-output\<version>` 中的 `.exe`：为当前用户安装 MiniPet，并请求创建桌面快捷方式和开始菜单项。
+
+`package-input`、`package-output` 和 `installer-output` 是生成目录，不会提交到 Git。
 
 ## 配置
 
