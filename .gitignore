@@ -3,3 +3,5 @@
 *.iml
 /target/
 /.m2/
+/package-input/
+/package-output/
