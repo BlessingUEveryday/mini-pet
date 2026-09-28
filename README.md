@@ -54,6 +54,18 @@ java -jar target\mini-pet-1.0.0-SNAPSHOT.jar
 
 To stop the pet, right-click it and choose **Exit**, or use the system tray menu.
 
+## Package a Windows Application
+
+Build a standalone Windows application folder that includes its own Java runtime:
+
+```powershell
+.\scripts\package-windows.ps1
+```
+
+After the command finishes, run `package-output\MiniPet\MiniPet.exe`.
+
+`package-input` and `package-output` are generated directories and are not committed to Git.
+
 ## Configuration
 
 On first launch, Mini Pet copies its bundled default configuration to:

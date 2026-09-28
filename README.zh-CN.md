@@ -54,6 +54,18 @@ java -jar target\mini-pet-1.0.0-SNAPSHOT.jar
 
 要关闭桌宠，请右键单击它并选择 **Exit**，或使用系统托盘菜单。
 
+## 打包 Windows 应用
+
+使用下面的命令构建一个自带 Java 运行环境、可直接运行的 Windows 应用文件夹：
+
+```powershell
+.\scripts\package-windows.ps1
+```
+
+命令完成后，运行 `package-output\MiniPet\MiniPet.exe`。
+
+`package-input` 和 `package-output` 是生成目录，不会提交到 Git。
+
 ## 配置
 
 Mini Pet 首次启动时，会将 JAR 内的默认配置复制到：
